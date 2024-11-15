@@ -1,0 +1,67 @@
+# docker build -t data_ingestion ./src/data_ingestion
+
+# #chay container database truoc
+
+# #chay container data_ingestion
+# docker run --env DB_HOST=your_database_host --env DB_NAME=crypto_db --env DB_USER=your_username --env DB_PASSWORD=your_password data_ingestion
+
+#chay toan bo du an
+# docker-compose up --build
+
+# docker-compose.yml
+#    ------------------------------------------------------------------------------------------
+version: '1'
+
+services:
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: crypto_db
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - ./src/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - crypto_network
+
+  data_ingestion:
+    build: ./src/data_ingestion
+    environment:
+      DB_HOST: database  # Đảm bảo tên dịch vụ là 'database'
+      DB_NAME: crypto_db
+      DB_USER: your_username
+      DB_PASSWORD: your_password
+    depends_on:
+      - database
+    networks:
+      - crypto_network
+
+  database_api:
+    build: ./src/database_API
+    environment:
+      DB_HOST: database
+      DB_NAME: crypto_db
+      DB_USER: your_username
+      DB_PASSWORD: your_password
+    ports:
+      - "5001:5000"
+    depends_on:
+      - database
+    networks:
+      - crypto_network
+
+  front_end:
+    build: ./src/front_end
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database_api
+    networks:
+      - crypto_network
+
+networks:
+  crypto_network:
+    driver: bridge
