@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Price Dashboard</title>
+</head>
+<body>
+    <h1>BTC Price Dashboard</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% else %}
+        <p>Current BTC Price: ${{ price }}</p>
+        <p>Last Updated: {{ timestamp }}</p>
+    {% endif %}
+
+</body>
+</html>
