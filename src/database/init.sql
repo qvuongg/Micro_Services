@@ -1,0 +1,11 @@
+-- src/database/init.sql
+
+CREATE DATABASE IF NOT EXISTS crypto_db;
+
+USE crypto_db;
+
+CREATE TABLE IF NOT EXISTS btc_prices (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    price DECIMAL(18, 8) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

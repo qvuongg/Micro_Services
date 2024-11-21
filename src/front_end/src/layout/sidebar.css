@@ -1,0 +1,8 @@
+.ant-layout-sider-children {
+  position: fixed;
+}
+
+.ant-menu {
+  width: 125%;
+  padding: 10px;
+}
