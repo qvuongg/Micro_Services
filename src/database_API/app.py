@@ -3,8 +3,12 @@
 from flask import Flask, jsonify, request
 import mysql.connector
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Thêm dòng này để bật CORS
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+
 
 # Kết nối đến cơ sở dữ liệu MySQLv
 def connect_to_db():

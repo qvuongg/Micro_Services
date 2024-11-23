@@ -51,7 +51,7 @@ const CryptoPrices = () => {
           <span className="crypto-price" style={{ color: coin.color }}>
             ${coin.price.toFixed(2)}
           </span>
-          <span className="crypto-change">
+          <span className="crypto-change" style={{color:"green"}}>
             ({coin.priceChangePercent.toFixed(2)}%)
           </span>
         </div>

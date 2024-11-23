@@ -48,7 +48,7 @@ def run_ingestion():
             price = fetch_btc_price()
             save_to_db(price, conn)
             print(f"Saved BTC price {price} at {datetime.now()}")
-            time.sleep(10)  # 5 phút
+            time.sleep(10)  # 10s
     finally:
         conn.close()
 

@@ -3,4 +3,3 @@
 requests
 mysql-connector-python
 Flask
-# asd

@@ -6,6 +6,7 @@ import CandlestickChart from './components/CandlestickChart';
 import VolumeChart from './components/VolumeChart';
 import LivePriceChart from './components/LivePriceChart';
 import LiveCandlestickChart from './components/LiveCandlestickChart';
+// import LivePriceChart2 from './components/LivePriceChart2';
 const { Content } = Layout;
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                 }}>
                 {/* <CryptoPriceChart /> */}
                 <LivePriceChart />
+                {/* <LivePriceChart2 /> */}
               </Card>
             </Col>
             <Col span={4}>

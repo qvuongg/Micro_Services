@@ -17,8 +17,8 @@ const LivePriceChart = () => {
       const newTime = new Date().toLocaleTimeString();
 
       setPriceData((prevData) => {
-        const updatedTime = [...prevData.time, newTime].slice(-30);
-        const updatedPrice = [...prevData.price, newPrice].slice(-30);
+        const updatedTime = [...prevData.time, newTime].slice(-60);
+        const updatedPrice = [...prevData.price, newPrice].slice(-60);
 
         return { time: updatedTime, price: updatedPrice };
       });
