@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { fetchCSVData } from "../utils/dataFetcher";
+import { fetchCSVData } from "../../utils/dataFetcher";
 
-const PriceLineChart = () => {
+const VolumeChart = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -19,23 +19,22 @@ const PriceLineChart = () => {
   }, []);
 
   const time = chartData.map((row) => row["Close Time"]);
-  const price = chartData.map((row) => parseFloat(row["Last Price"]));
+  const volume = chartData.map((row) => parseFloat(row["Volume"]));
 
   return (
     <Plot
       data={[
         {
           x: time,
-          y: price,
-          type: "scatter",
-          mode: "lines",
-          marker: { color: "blue" },
+          y: volume,
+          type: "bar",
+          marker: { color: "orange" },
         },
       ]}
       layout={{
-        title: "Price Bitcoin Chart",
-        xaxis: { title: "Close Time" },
-        yaxis: { title: "Last Price (USD)" },
+        title: "BTC Trading Volume",
+        xaxis: { title: "Time" },
+        yaxis: { title: "Volume (USD)" },
         autosize: true,
       }}
       style={{ width: "100%", height: "100%" }}
@@ -43,4 +42,4 @@ const PriceLineChart = () => {
   );
 };
 
-export default PriceLineChart;
+export default VolumeChart;

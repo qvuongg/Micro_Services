@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { fetchCSVData } from "../utils/dataFetcher";
+import { fetchCSVData } from "../../utils/dataFetcher";
 
 const CandlestickChart = () => {
   const [chartData, setChartData] = useState({

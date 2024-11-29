@@ -41,7 +41,7 @@ const LivePriceChart = () => {
             x: priceData.time,
             y: priceData.price,
             type: "scatter",
-            mode: "lines+markers",
+            mode: "lines",
             marker: { color: "blue" },
           },
         ]}

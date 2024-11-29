@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Avatar } from 'antd';
-import CryptoPrices from '../components/CryptoPrices';
+import CryptoPrices from '../../components/Test/CryptoPrices';
 import './header.css'
 
 const Header = () => (
