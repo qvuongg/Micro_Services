@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Sao chép mã nguồn vào container
-COPY . .
+COPY . /app
 
 # Thiết lập biến môi trường cho MySQL
 ENV DB_HOST=database \
@@ -21,5 +21,5 @@ ENV DB_HOST=database \
     DB_USER=your_username \
     DB_PASSWORD=your_password
 
-# Lệnh để chạy ứng dụng Flask
-CMD ["python", "app.py"]
+EXPOSE 8000
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,26 +1,28 @@
-# src/database_API/app.py
-
-from flask import Flask, jsonify, request
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 import mysql.connector
 import os
-from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)  # Thêm dòng này để bật CORS
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+app = FastAPI()
 
-
-# Kết nối đến cơ sở dữ liệu MySQLv
 def connect_to_db():
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD")
+        host="localhost",
+        user="root",
+        password="root",
+        database="crypto_data",
+        charset="utf8mb4"
     )
+# def connect_to_db():
+#     return mysql.connector.connect(
+#         host=os.getenv("DB_HOST"),
+#         database=os.getenv("DB_NAME"),
+#         user=os.getenv("DB_USER"),
+#         password=os.getenv("DB_PASSWORD")
+#     )
 
 # Endpoint để lấy giá BTC mới nhất
-@app.route('/btc_price', methods=['GET'])
+@app.get("/btc_price")
 def get_latest_btc_price():
     conn = connect_to_db()
     cursor = conn.cursor(dictionary=True)
@@ -30,25 +32,55 @@ def get_latest_btc_price():
     conn.close()
     
     if result:
-        return jsonify(result)
+        return result
     else:
-        return jsonify({"error": "No data available"}), 404
+        return {"error": "No data available"}
 
 # Endpoint để lấy giá BTC trong một khoảng thời gian (cho mục đích phân tích)
-@app.route('/btc_price_range', methods=['GET'])
-def get_btc_price_range():
-    start_time = request.args.get('start')
-    end_time = request.args.get('end')
-    
+@app.get("/btc_price_range")
+def get_btc_price_range(start: str, end: str):
     conn = connect_to_db()
     cursor = conn.cursor(dictionary=True)
     query = "SELECT price, timestamp FROM btc_prices WHERE timestamp BETWEEN %s AND %s"
-    cursor.execute(query, (start_time, end_time))
+    cursor.execute(query, (start, end))
     results = cursor.fetchall()
     cursor.close()
     conn.close()
 
-    return jsonify(results)
+    return results
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@app.get("/btc_price_range_once_week")
+def get_btc_price_range_once_week():
+    conn = connect_to_db()
+    cursor = conn.cursor(dictionary=True)
+    query = "SELECT * FROM btc_klines WHERE open_time >= NOW() - INTERVAL 7 DAY"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return results
+
+@app.get("/btc_price_range_once_month")
+def get_btc_price_range_once_month():
+    conn = connect_to_db()
+    cursor = conn.cursor(dictionary=True)
+    query = "SELECT * FROM btc_klines WHERE open_time >= NOW() - INTERVAL 1 MONTH"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return results
+
+@app.get("/btc_price_range_once_year")
+def get_btc_price_range_once_year():
+    conn = connect_to_db()
+    cursor = conn.cursor(dictionary=True)
+    query = "SELECT * FROM btc_klines WHERE open_time >= NOW() - INTERVAL 1 YEAR"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return results
